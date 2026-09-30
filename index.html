@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Gianella ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;750&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top, #3b1f2b, #141218);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      color: white;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.8rem;
+      color: #f9c5d1;
+      margin-bottom: 12px;
+      text-align: center;
+      text-shadow: 0 2px 12px rgba(216,137,155,0.4);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #b08090;
+      margin-bottom: 48px;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(249,197,209,0.2);
+      border-radius: 20px;
+      width: 280px;
+      padding: 36px 28px;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 16px 40px rgba(216,137,155,0.25);
+    }
+
+    .card .emoji {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .card .title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.6rem;
+      color: #f9c5d1;
+      margin-bottom: 10px;
+    }
+
+    .card .desc {
+      font-size: 0.82rem;
+      color: #c49aaa;
+      line-height: 1.6;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,5,10,0.85);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #1e0f18;
+      border: 1px solid rgba(249,197,209,0.2);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 960px;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(249,197,209,0.1);
+    }
+
+    .modal-header span {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: #f9c5d1;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #c49aaa;
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,255,255,0.08);
+      color: white;
+    }
+
+    .modal iframe {
+      flex: 1;
+      border: none;
+      width: 100%;
+    }
+
+    .footer {
+      margin-top: 48px;
+      font-size: 0.78rem;
+      color: #6b4455;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Para Gianella ❤️</h1>
+  <p class="subtitle">Cada ventana es una sorpresa para ti</p>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="footer">Hecho con amor · ricardojpj</p>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <span id="modalTitle"></span>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <iframe id="modalFrame" src=""></iframe>
+    </div>
+  </div>
+
+  <script>
+    const repos = [
+      {
+        name: "primermes",
+        title: "Nuestro Primer Mes",
+        emoji: "🌸",
+        desc: "El comienzo de algo muy especial",
+        url: "https://ricardojpj.github.io/primermes/"
+      },
+      {
+        name: "mirame",
+        title: "Mírame",
+        emoji: "🤍",
+        desc: "Un momento para ti, solo para ti",
+        url: "https://ricardojpj.github.io/mirame/"
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+
+    repos.forEach(repo => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <span class="emoji">${repo.emoji}</span>
+        <div class="title">${repo.title}</div>
+        <div class="desc">${repo.desc}</div>
+      `;
+      card.addEventListener('click', () => openModal(repo.title, repo.url));
+      grid.appendChild(card);
+    });
+
+    function openModal(title, url) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalFrame').src = url;
+      document.getElementById('modalOverlay').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+      document.getElementById('modalFrame').src = '';
+    }
+
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
