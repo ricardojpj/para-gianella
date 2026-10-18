@@ -4,167 +4,250 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Para Gianella ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;750&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at top, #3b1f2b, #141218);
+      font-family: 'Manrope', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
+      background: linear-gradient(160deg, #0a040f 0%, #130818 40%, #0f0520 70%, #080310 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 60px 20px 80px;
       color: white;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    h1 {
-      font-family: 'Dancing Script', cursive;
-      font-size: 2.8rem;
-      color: #f9c5d1;
-      margin-bottom: 12px;
-      text-align: center;
-      text-shadow: 0 2px 12px rgba(216,137,155,0.4);
+    /* ── Canvas estrellas ── */
+    #sky {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
     }
 
-    .subtitle {
-      font-size: 0.95rem;
-      color: #b08090;
-      margin-bottom: 48px;
-      text-align: center;
-      letter-spacing: 0.04em;
+    /* ── Animaciones ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15%       { transform: scale(1.3); }
+      30%       { transform: scale(1); }
+      45%       { transform: scale(1.15); }
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes shootingStar {
+      0%   { transform: translateX(0) translateY(0); opacity: 1; }
+      100% { transform: translateX(260px) translateY(100px); opacity: 0; }
+    }
+    @keyframes pulseRing {
+      0%   { transform: scale(1);   opacity: .4; }
+      100% { transform: scale(1.8); opacity: 0; }
     }
 
+    /* ── Hero ── */
+    .hero {
+      position: relative; z-index: 1;
+      text-align: center; margin-bottom: 64px;
+      animation: fadeUp .8s ease both;
+    }
+    .hero-heart {
+      font-size: 44px; display: block; margin-bottom: 16px;
+      animation: heartbeat 2s ease-in-out infinite;
+      position: relative;
+    }
+    .hero-heart::after {
+      content: "";
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(249,150,170,.3);
+      animation: pulseRing 1.8s ease-out infinite;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 7vw, 4.2rem);
+      font-weight: 600; letter-spacing: -.5px; line-height: 1.1;
+      background: linear-gradient(90deg, #f9c5d1 0%, #e8a0b8 40%, #f9c5d1 70%, #ffd6e0 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+    }
+    .hero-sub {
+      margin-top: 12px; font-size: 13px; font-weight: 500;
+      color: rgba(255,255,255,.35); letter-spacing: 2px; text-transform: uppercase;
+    }
+
+    /* ── Grid ── */
     .grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      justify-content: center;
-      width: 100%;
-      max-width: 900px;
+      display: flex; flex-wrap: wrap; gap: 28px;
+      justify-content: center; width: 100%; max-width: 960px;
+      position: relative; z-index: 1;
     }
 
+    /* ── Card ── */
     .card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(249,197,209,0.2);
-      border-radius: 20px;
-      width: 280px;
-      padding: 36px 28px;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-      text-align: center;
-      backdrop-filter: blur(8px);
+      width: 280px; cursor: pointer; text-align: center;
+      position: relative;
+      animation: fadeUp .7s ease both;
+    }
+    .card:nth-child(2) { animation-delay: .1s; }
+    .card:nth-child(3) { animation-delay: .2s; }
+
+    .card-inner {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(249,197,209,.15);
+      border-radius: 24px;
+      padding: 36px 24px 28px;
+      backdrop-filter: blur(12px);
+      transition: transform .3s ease, box-shadow .3s ease, background .3s ease, border-color .3s ease;
+      position: relative; overflow: hidden;
+    }
+    .card-inner::before {
+      content: "";
+      position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+      width: 120px; height: 120px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(249,150,170,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .card:hover .card-inner {
+      transform: translateY(-10px) scale(1.02);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(249,197,209,.35);
+      box-shadow:
+        0 20px 50px rgba(200,80,120,.2),
+        0 0 0 1px rgba(249,197,209,.15),
+        inset 0 1px 0 rgba(255,255,255,.08);
     }
 
-    .card:hover {
-      transform: translateY(-8px) scale(1.02);
-      background: rgba(255,255,255,0.1);
-      box-shadow: 0 16px 40px rgba(216,137,155,0.25);
+    .card-emoji {
+      font-size: 2.6rem; display: block; margin-bottom: 14px;
+      animation: float 4s ease-in-out infinite;
+    }
+    .card:nth-child(2) .card-emoji { animation-delay: .6s; }
+    .card:nth-child(3) .card-emoji { animation-delay: 1.2s; }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600;
+      color: #f9c5d1; margin-bottom: 8px; letter-spacing: .2px;
+    }
+    .card-desc {
+      font-size: 11.5px; color: rgba(255,255,255,.38);
+      line-height: 1.65; font-weight: 500;
     }
 
-    .card .emoji {
-      font-size: 3rem;
-      margin-bottom: 16px;
-      display: block;
+    /* Fecha */
+    .card-date {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 18px;
+      background: rgba(249,197,209,.07);
+      border: 1px solid rgba(249,197,209,.12);
+      border-radius: 99px; padding: 4px 12px;
+      font-size: 10px; font-weight: 700; letter-spacing: .8px;
+      color: rgba(249,197,209,.5); text-transform: uppercase;
+    }
+    .card-date::before { content: "✦"; font-size: 8px; }
+
+    /* Glow al hover */
+    .card::after {
+      content: "";
+      position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+      width: 60%; height: 30px;
+      background: radial-gradient(ellipse, rgba(200,80,120,.3) 0%, transparent 70%);
+      opacity: 0; transition: opacity .3s ease;
+      pointer-events: none;
+    }
+    .card:hover::after { opacity: 1; }
+
+    /* ── Footer ── */
+    .footer {
+      margin-top: 64px; position: relative; z-index: 1;
+      font-size: 11px; color: rgba(255,255,255,.18);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      animation: fadeUp 1s ease .4s both;
     }
 
-    .card .title {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.6rem;
-      color: #f9c5d1;
-      margin-bottom: 10px;
-    }
-
-    .card .desc {
-      font-size: 0.82rem;
-      color: #c49aaa;
-      line-height: 1.6;
-    }
-
-    /* Modal */
+    /* ── Modal ── */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(10,5,10,0.85);
-      z-index: 100;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
+      display: none; position: fixed; inset: 0;
+      background: rgba(5,2,10,.88);
+      z-index: 200; justify-content: center; align-items: center;
+      padding: 20px; backdrop-filter: blur(6px);
     }
-
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal {
-      background: #1e0f18;
-      border: 1px solid rgba(249,197,209,0.2);
-      border-radius: 20px;
-      width: 100%;
-      max-width: 960px;
-      height: 85vh;
-      display: flex;
-      flex-direction: column;
+      background: linear-gradient(160deg, #130818 0%, #0a0412 100%);
+      border: 1px solid rgba(249,197,209,.15);
+      border-radius: 20px; width: 100%; max-width: 980px;
+      height: 88vh; display: flex; flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      box-shadow: 0 30px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(249,197,209,.06);
     }
-
     .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 24px;
-      border-bottom: 1px solid rgba(249,197,209,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 22px;
+      border-bottom: 1px solid rgba(249,197,209,.08);
+      background: rgba(255,255,255,.02);
+      flex-shrink: 0;
     }
-
     .modal-header span {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.4rem;
-      color: #f9c5d1;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; color: #f9c5d1; font-weight: 600;
     }
-
     .modal-close {
-      background: none;
-      border: none;
-      color: #c49aaa;
-      font-size: 1.4rem;
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 8px;
-      transition: background 0.2s;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.5); font-size: 1rem; cursor: pointer;
+      width: 30px; height: 30px; border-radius: 50%;
+      display: grid; place-items: center;
+      transition: background .2s, color .2s;
+    }
+    .modal-close:hover { background: rgba(249,197,209,.15); color: #f9c5d1; }
+    .modal iframe { flex: 1; border: none; width: 100%; }
+
+    /* ── Shooting star ── */
+    .shooting { position: fixed; pointer-events: none; z-index: 0; }
+    .shooting::after {
+      content: "";
+      position: absolute;
+      width: 80px; height: 1.5px;
+      background: linear-gradient(90deg, rgba(255,200,220,.9), transparent);
+      border-radius: 2px;
+      animation: shootingStar 1.1s ease-out both;
     }
 
-    .modal-close:hover {
-      background: rgba(255,255,255,0.08);
-      color: white;
-    }
-
-    .modal iframe {
-      flex: 1;
-      border: none;
-      width: 100%;
-    }
-
-    .footer {
-      margin-top: 48px;
-      font-size: 0.78rem;
-      color: #6b4455;
-      text-align: center;
+    @media (max-width: 640px) {
+      .card { width: 100%; max-width: 320px; }
+      .hero h1 { font-size: 2.2rem; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Para Gianella ❤️</h1>
-  <p class="subtitle">Cada ventana es una sorpresa para ti</p>
+  <canvas id="sky"></canvas>
 
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-heart">❤️</span>
+    <h1>Para Gianella</h1>
+    <p class="hero-sub">cada ventana es una sorpresa para ti</p>
+  </div>
+
+  <!-- Cards -->
   <div class="grid" id="grid"></div>
 
-  <p class="footer">Hecho con amor</p>
+  <p class="footer">Hecho con amor · Ricardo</p>
 
+  <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <div class="modal-header">
@@ -182,6 +265,7 @@
         title: "Mírame",
         emoji: "🤍",
         desc: "Un momento para ti, solo para ti",
+        date: "14 de febrero",
         url: "https://ricardojpj.github.io/mirame/"
       },
       {
@@ -189,6 +273,7 @@
         title: "Nuestro Primer Año",
         emoji: "🌸",
         desc: "El comienzo de algo muy especial",
+        date: "Nuestro aniversario",
         url: "https://ricardojpj.github.io/primermes/"
       },
       {
@@ -196,19 +281,22 @@
         title: "Mi hermosa Tauro",
         emoji: "🌙",
         desc: "Un poema para ti, mi gordita hermosa ♉❤️",
+        date: "Para siempre",
         url: "tauro.html"
       }
     ];
 
     const grid = document.getElementById('grid');
-
     repos.forEach(repo => {
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `
-        <span class="emoji">${repo.emoji}</span>
-        <div class="title">${repo.title}</div>
-        <div class="desc">${repo.desc}</div>
+        <div class="card-inner">
+          <span class="card-emoji">${repo.emoji}</span>
+          <div class="card-title">${repo.title}</div>
+          <div class="card-desc">${repo.desc}</div>
+          <div class="card-date">${repo.date}</div>
+        </div>
       `;
       card.addEventListener('click', () => openModal(repo.title, repo.url));
       grid.appendChild(card);
@@ -219,7 +307,6 @@
       const frame = document.getElementById('modalFrame');
       frame.src = url;
       document.getElementById('modalOverlay').classList.add('active');
-      // Cuando el iframe cargue, mandarle señal de play
       frame.onload = () => {
         try { frame.contentWindow.postMessage('play', '*'); } catch(e) {}
       };
@@ -235,10 +322,104 @@
     document.getElementById('modalOverlay').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
-
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeModal();
     });
+
+    /* ── Canvas estrellas ── */
+    const sky = document.getElementById('sky');
+    const ctx = sky.getContext('2d');
+    sky.width = window.innerWidth;
+    sky.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+      sky.width = window.innerWidth;
+      sky.height = window.innerHeight;
+    });
+
+    const stars = [];
+    for (let i = 0; i < 260; i++) {
+      stars.push({
+        x: Math.random() * sky.width,
+        y: Math.random() * sky.height,
+        r: Math.random() * 1.3 + 0.2,
+        op: Math.random() * 0.6 + 0.2,
+        phase: Math.random() * Math.PI * 2,
+        ts: Math.random() * 0.03 + 0.008,
+        dx: (Math.random() - 0.5) * 0.12,
+        dy: (Math.random() - 0.5) * 0.07,
+      });
+    }
+    for (let i = 0; i < 35; i++) {
+      stars.push({
+        x: Math.random() * sky.width,
+        y: Math.random() * sky.height,
+        r: Math.random() * 2 + 1,
+        op: Math.random() * 0.5 + 0.5,
+        phase: Math.random() * Math.PI * 2,
+        ts: Math.random() * 0.02 + 0.005,
+        dx: (Math.random() - 0.5) * 0.08,
+        dy: (Math.random() - 0.5) * 0.05,
+        bright: true,
+      });
+    }
+
+    let t = 0;
+    function draw() {
+      ctx.clearRect(0, 0, sky.width, sky.height);
+      t++;
+
+      // Nebulosa animada rosa/violeta
+      const nx = Math.sin(t * 0.002) * 50;
+      const ny = Math.cos(t * 0.0015) * 35;
+      const n1 = ctx.createRadialGradient(sky.width*.3+nx, sky.height*.25+ny, 0, sky.width*.3+nx, sky.height*.25+ny, sky.width*.3);
+      n1.addColorStop(0, 'rgba(140,40,100,.07)');
+      n1.addColorStop(1, 'transparent');
+      ctx.fillStyle = n1; ctx.fillRect(0,0,sky.width,sky.height);
+
+      const n2 = ctx.createRadialGradient(sky.width*.75-nx, sky.height*.6-ny, 0, sky.width*.75-nx, sky.height*.6-ny, sky.width*.25);
+      n2.addColorStop(0, 'rgba(60,20,120,.06)');
+      n2.addColorStop(1, 'transparent');
+      ctx.fillStyle = n2; ctx.fillRect(0,0,sky.width,sky.height);
+
+      stars.forEach(s => {
+        s.x += s.dx; s.y += s.dy;
+        if (s.x < -5) s.x = sky.width + 5;
+        if (s.x > sky.width + 5) s.x = -5;
+        if (s.y < -5) s.y = sky.height + 5;
+        if (s.y > sky.height + 5) s.y = -5;
+
+        const fl = (Math.sin(t * s.ts + s.phase) + 1) / 2;
+        const op = s.op * (0.4 + 0.6 * fl);
+        const r  = s.r * (0.85 + 0.15 * fl);
+
+        if (s.bright) {
+          const g = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r * 4);
+          g.addColorStop(0, `rgba(255,220,230,${op})`);
+          g.addColorStop(0.4, `rgba(240,180,210,${op*.3})`);
+          g.addColorStop(1, 'transparent');
+          ctx.beginPath(); ctx.arc(s.x, s.y, r*4, 0, Math.PI*2);
+          ctx.fillStyle = g; ctx.fill();
+        }
+        ctx.beginPath(); ctx.arc(s.x, s.y, r, 0, Math.PI*2);
+        ctx.fillStyle = s.bright ? `rgba(255,230,240,${op})` : `rgba(220,210,255,${op})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    /* ── Shooting stars ── */
+    function shoot() {
+      const el = document.createElement('div');
+      el.className = 'shooting';
+      el.style.top  = Math.random() * 50 + '%';
+      el.style.left = Math.random() * 65 + '%';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1200);
+    }
+    setInterval(shoot, 4000);
+    setTimeout(shoot, 1500);
   </script>
 </body>
 </html>
