@@ -165,38 +165,58 @@
     /* ── Poem window ──────────────────────────────── */
     .poem-window {
       background: var(--white);
-      border: 1.5px solid var(--line);
+      border: 1.5px solid rgba(255,255,255,.12);
       border-radius: 20px;
       box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      margin-top: -32px; /* overlap hero bottom */
+      overflow: visible;
+      margin-top: 40px;
       animation: fadeUp .7s ease .2s both;
     }
 
-    /* Window chrome */
+    /* Window chrome — dark with stars */
     .window-chrome {
-      background: linear-gradient(135deg, #f0f5f2 0%, #e8f0eb 100%);
-      border-bottom: 1px solid var(--line);
-      padding: 14px 18px;
+      background: linear-gradient(135deg, #0b1f14 0%, #0f2e1c 60%, #13391f 100%);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-radius: 20px 20px 0 0;
+      padding: 14px 20px;
       display: flex; align-items: center; gap: 10px;
+      position: relative; overflow: hidden;
     }
-    .chrome-dots { display: flex; gap: 7px; }
+    /* mini stars inside chrome */
+    .window-chrome::before {
+      content: "✦ · ✦ · · ✦ · ✦ · · ✦";
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7px; color: rgba(255,255,255,.12);
+      letter-spacing: 6px; pointer-events: none;
+    }
+    .chrome-dots { display: flex; gap: 7px; position: relative; z-index: 1; }
     .chrome-dot {
       width: 12px; height: 12px; border-radius: 50%;
     }
-    .dot-red   { background: #ff6059; box-shadow: 0 0 0 1px rgba(255,96,89,.3); }
-    .dot-amber { background: #ffbd2e; box-shadow: 0 0 0 1px rgba(255,189,46,.3); }
-    .dot-green { background: #28c840; box-shadow: 0 0 0 1px rgba(40,200,64,.3); }
+    .dot-red   { background: #ff6059; box-shadow: 0 0 6px rgba(255,96,89,.5); }
+    .dot-amber { background: #ffbd2e; box-shadow: 0 0 6px rgba(255,189,46,.5); }
+    .dot-green { background: #28c840; box-shadow: 0 0 6px rgba(40,200,64,.5); }
     .chrome-title {
       flex: 1; text-align: center;
-      font-size: 12px; font-weight: 700; color: var(--muted);
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,.65);
       letter-spacing: .3px; font-family: Manrope, sans-serif;
+      position: relative; z-index: 1;
     }
-    .chrome-right { width: 44px; } /* balance */
+    .chrome-tauro {
+      font-size: 18px;
+      position: relative; z-index: 1;
+      animation: floatStar 3s ease-in-out infinite;
+    }
+    .chrome-right { width: 44px; position: relative; z-index: 1; }
 
     /* Poem body */
     .poem-body {
       padding: 44px 52px 52px;
+      background: var(--white);
+      border-radius: 0 0 18px 18px;
+      border: 1.5px solid var(--line);
+      border-top: none;
     }
 
     .poem-title {
@@ -381,8 +401,8 @@
           <span class="chrome-dot dot-amber"></span>
           <span class="chrome-dot dot-green"></span>
         </div>
-        <span class="chrome-title">🌙 Mi hermosa Tauro, nunca apagues tu universo ♉</span>
-        <div class="chrome-right"></div>
+        <span class="chrome-title">🌙 Mi hermosa Tauro, nunca apagues tu universo</span>
+        <span class="chrome-tauro">♉</span>
       </div>
 
       <!-- Poem body -->
@@ -542,8 +562,9 @@
   <!-- ── Stars script ──────────────────────────────────── -->
   <script>
     const container = document.getElementById('stars');
-    const count = 120;
-    for (let i = 0; i < count; i++) {
+
+    // White dot stars
+    for (let i = 0; i < 120; i++) {
       const s = document.createElement('div');
       s.className = 'star';
       const size = Math.random() * 2.5 + 0.5;
@@ -556,6 +577,26 @@
         opacity:${Math.random() * 0.5 + 0.1};
       `;
       container.appendChild(s);
+    }
+
+    // Floating ♉ symbols
+    for (let i = 0; i < 10; i++) {
+      const t = document.createElement('div');
+      t.textContent = '♉';
+      const size = Math.random() * 14 + 10;
+      const dur  = (Math.random() * 8 + 6).toFixed(1);
+      const delay = (Math.random() * 8).toFixed(1);
+      t.style.cssText = `
+        position:absolute;
+        top:${Math.random() * 100}%;
+        left:${Math.random() * 100}%;
+        font-size:${size}px;
+        color:rgba(79,232,156,${(Math.random() * 0.18 + 0.06).toFixed(2)});
+        animation:floatStar ${dur}s ease-in-out ${delay}s infinite;
+        pointer-events:none;
+        user-select:none;
+      `;
+      container.appendChild(t);
     }
   </script>
 
