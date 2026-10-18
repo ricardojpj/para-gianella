@@ -234,43 +234,18 @@
       animation: shootingStar 1.2s ease-out both;
     }
 
-    /* ── Audio player flotante ──────────────────── */
-    .audio-player {
+    /* ── Audio hint ─────────────────────────────── */
+    .audio-hint {
       position: fixed; bottom: 24px; right: 24px; z-index: 100;
-      background: rgba(10,10,24,.85);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 99px;
-      padding: 10px 18px 10px 12px;
-      display: flex; align-items: center; gap: 10px;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 8px 32px rgba(0,0,0,.5);
-    }
-    .audio-play-btn {
-      width: 36px; height: 36px; border-radius: 50%;
-      background: linear-gradient(135deg, #ffd964, #ffb347);
-      border: none; cursor: pointer;
-      display: grid; place-items: center;
-      font-size: 14px;
-      box-shadow: 0 4px 14px rgba(255,200,80,.35);
-      transition: transform .15s, box-shadow .15s;
-      flex-shrink: 0;
-    }
-    .audio-play-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(255,200,80,.5); }
-    .audio-info { display: flex; flex-direction: column; gap: 1px; }
-    .audio-title { font-family: Manrope, sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.85); white-space: nowrap; }
-    .audio-artist { font-size: 10px; color: rgba(255,255,255,.4); font-style: normal; white-space: nowrap; }
-    .audio-bar {
-      width: 80px; height: 3px; background: rgba(255,255,255,.1);
-      border-radius: 99px; overflow: hidden;
-    }
-    .audio-progress {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, #ffd964, #ffb347);
-      border-radius: 99px; transition: width .5s linear;
-    }
-    @media(max-width:600px){
-      .audio-player { bottom: 16px; right: 16px; padding: 8px 14px 8px 10px; }
-      .audio-bar { width: 50px; }
+      background: rgba(10,10,24,.75);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 99px; padding: 8px 16px;
+      font-family: Manrope, sans-serif;
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.45);
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+      animation: fadeIn 1s ease 2s both;
     }
     @media (max-width: 600px) {
       .hero { padding: 60px 16px 52px; }
@@ -563,39 +538,34 @@
   </main>
 
   <!-- ── Audio ─────────────────────────────────────────── -->
-  <audio id="bgAudio" src="bendita.mp3" loop preload="none"></audio>
-  <div class="audio-player">
-    <button class="audio-play-btn" id="playBtn" onclick="toggleAudio()" aria-label="Play/Pause">▶</button>
-    <div class="audio-info">
-      <span class="audio-title">Bendita tu luz</span>
-      <span class="audio-artist">Juan Luis Guerra &amp; Maná</span>
-    </div>
-    <div class="audio-bar"><div class="audio-progress" id="audioProgress"></div></div>
-  </div>
+  <audio id="bgAudio" src="bendita.mp3" loop preload="auto"></audio>
+  <div class="audio-hint" id="audioHint">🎵 toca para escuchar</div>
 
   <script>
-    /* ── Audio ───────────────────────────────────────────── */
+    /* ── Audio — autoplay en primer toque ──────────────── */
     const audio = document.getElementById('bgAudio');
-    const playBtn = document.getElementById('playBtn');
-    const progress = document.getElementById('audioProgress');
-    let playing = false;
+    const hint  = document.getElementById('audioHint');
 
-    function toggleAudio() {
-      if (playing) {
-        audio.pause();
-        playBtn.textContent = '▶';
-      } else {
-        audio.play();
-        playBtn.textContent = '⏸';
-      }
-      playing = !playing;
+    function startAudio() {
+      audio.volume = 0.6;
+      audio.play().then(() => {
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity .8s';
+        setTimeout(() => hint.remove(), 900);
+      }).catch(() => {});
+      document.removeEventListener('click',     startAudio);
+      document.removeEventListener('touchstart', startAudio);
     }
 
-    audio.addEventListener('timeupdate', () => {
-      if (audio.duration) {
-        progress.style.width = (audio.currentTime / audio.duration * 100) + '%';
-      }
+    // Intentar autoplay inmediato (funciona en algunos navegadores)
+    audio.play().catch(() => {
+      // Bloqueado — esperar primer toque
+      document.addEventListener('click',     startAudio, { once: true });
+      document.addEventListener('touchstart', startAudio, { once: true });
     });
+    if (!audio.paused) {
+      hint.remove();
+    }
 
     /* ── Cielo con Canvas — estrellas animadas ──────────── */
     const sky = document.getElementById('sky');
