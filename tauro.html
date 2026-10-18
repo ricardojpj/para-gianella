@@ -542,30 +542,30 @@
   <div class="audio-hint" id="audioHint">🎵 toca para escuchar</div>
 
   <script>
-    /* ── Audio — autoplay en primer toque ──────────────── */
+    /* ── Audio — arranca con postMessage desde el padre ─── */
     const audio = document.getElementById('bgAudio');
     const hint  = document.getElementById('audioHint');
 
     function startAudio() {
       audio.volume = 0.6;
       audio.play().then(() => {
-        hint.style.opacity = '0';
-        hint.style.transition = 'opacity .8s';
-        setTimeout(() => hint.remove(), 900);
+        if (hint) {
+          hint.style.opacity = '0';
+          hint.style.transition = 'opacity .8s';
+          setTimeout(() => hint.remove(), 900);
+        }
       }).catch(() => {});
-      document.removeEventListener('click',     startAudio);
-      document.removeEventListener('touchstart', startAudio);
     }
 
-    // Intentar autoplay inmediato (funciona en algunos navegadores)
-    audio.play().catch(() => {
-      // Bloqueado — esperar primer toque
-      document.addEventListener('click',     startAudio, { once: true });
-      document.addEventListener('touchstart', startAudio, { once: true });
+    // Escuchar mensaje del padre (cuando abre el modal)
+    window.addEventListener('message', e => {
+      if (e.data === 'play')  startAudio();
+      if (e.data === 'pause') audio.pause();
     });
-    if (!audio.paused) {
-      hint.remove();
-    }
+
+    // Fallback: primer toque directo
+    document.addEventListener('click',      startAudio, { once: true });
+    document.addEventListener('touchstart', startAudio, { once: true });
 
     /* ── Cielo con Canvas — estrellas animadas ──────────── */
     const sky = document.getElementById('sky');

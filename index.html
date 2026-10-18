@@ -216,13 +216,20 @@
 
     function openModal(title, url) {
       document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalFrame').src = url;
+      const frame = document.getElementById('modalFrame');
+      frame.src = url;
       document.getElementById('modalOverlay').classList.add('active');
+      // Cuando el iframe cargue, mandarle señal de play
+      frame.onload = () => {
+        try { frame.contentWindow.postMessage('play', '*'); } catch(e) {}
+      };
     }
 
     function closeModal() {
+      const frame = document.getElementById('modalFrame');
+      try { frame.contentWindow.postMessage('pause', '*'); } catch(e) {}
       document.getElementById('modalOverlay').classList.remove('active');
-      document.getElementById('modalFrame').src = '';
+      frame.src = '';
     }
 
     document.getElementById('modalOverlay').addEventListener('click', function(e) {
