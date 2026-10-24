@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>14 meses · Mi amor, mi orgullo, mi vida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:   #f5efe6;
+      --cream2:  #ede4d7;
+      --rose:    #c9796a;
+      --rose-lt: #e8a89c;
+      --terra:   #a0522d;
+      --ink:     #2c1f17;
+      --ink-lt:  #6b4c3b;
+      --gold:    #c9a96e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background-color: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      /* papel texturizado via SVG noise */
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E"),
+        linear-gradient(160deg, #f8f1e8 0%, #f2e9da 40%, #ede3d2 100%);
+    }
+
+    /* ── Animaciones ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes dropIn {
+      0%   { opacity: 0; transform: var(--rot) translateY(-320px) scale(.75); }
+      62%  { transform: var(--rot) translateY(12px) scale(1.02); opacity: 1; }
+      78%  { transform: var(--rot) translateY(-5px) scale(.99); }
+      100% { opacity: 1; transform: var(--rot) translateY(0) scale(1); }
+    }
+    @keyframes shimmerGold {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes heartPulse {
+      0%, 100% { transform: scale(1); }
+      20%       { transform: scale(1.28); }
+      40%       { transform: scale(1); }
+      60%       { transform: scale(1.14); }
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    /* ── Header editorial ── */
+    .masthead {
+      text-align: center;
+      padding: 72px 24px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .masthead::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--gold));
+    }
+    .masthead-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      animation: fadeUp .6s ease both;
+    }
+    .masthead-label::before, .masthead-label::after {
+      content: ''; flex: 0 0 40px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rose-lt));
+    }
+    .masthead-label::after { transform: scaleX(-1); }
+
+    .masthead h1 {
+      font-size: clamp(42px, 9vw, 88px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      color: var(--ink);
+      animation: fadeUp .7s ease .1s both;
+    }
+    .masthead h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--terra), var(--rose), var(--gold), var(--rose), var(--terra));
+      background-size: 300% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerGold 5s linear infinite;
+      font-weight: 600;
+    }
+    .masthead-sub {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px; letter-spacing: 3px; font-weight: 300;
+      color: var(--ink-lt); margin-top: 20px;
+      text-transform: uppercase;
+      animation: fadeUp .7s ease .2s both;
+    }
+    .masthead-ornament {
+      margin: 32px auto 0;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      animation: fadeUp .7s ease .3s both;
+    }
+    .masthead-ornament::before, .masthead-ornament::after {
+      content: ''; flex: 0 0 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .masthead-ornament::after { transform: scaleX(-1); }
+    .ornament-heart {
+      font-size: 18px;
+      animation: heartPulse 2.4s ease-in-out infinite, floatSlow 4s ease-in-out infinite;
+      display: inline-block;
+      filter: drop-shadow(0 2px 8px rgba(201,121,106,.5));
+    }
+
+    /* ── Contenedor ── */
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+
+    /* ── Badge cirugía ── */
+    .surgery-card {
+      border: 1px solid var(--gold);
+      background: linear-gradient(135deg, rgba(201,169,110,.08), rgba(201,121,106,.06));
+      border-radius: 4px;
+      padding: 28px 32px;
+      text-align: center;
+      margin-bottom: 52px;
+      position: relative;
+      animation: fadeUp .7s ease .4s both;
+    }
+    .surgery-card::before, .surgery-card::after {
+      content: '✦';
+      position: absolute; top: -10px;
+      font-size: 14px; color: var(--gold);
+      background: var(--cream); padding: 0 6px;
+    }
+    .surgery-card::before { left: 24px; }
+    .surgery-card::after  { right: 24px; }
+    .surgery-card .sc-icon {
+      font-size: 32px; display: block; margin-bottom: 10px;
+    }
+    .surgery-card .sc-title {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 9px; letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--rose); margin-bottom: 6px;
+    }
+    .surgery-card .sc-main {
+      font-size: 22px; font-style: italic; font-weight: 300;
+      color: var(--ink); line-height: 1.35;
+    }
+    .surgery-card .sc-sub {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--ink-lt); margin-top: 8px;
+    }
+
+    /* ── Polaroids ── */
+    .polaroid-section {
+      margin: 0 -12px 60px;
+    }
+    .polaroid-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 8px 12px;
+    }
+    @media (max-width: 480px) {
+      .polaroid-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    }
+    /* polaroid wrapper: solo perspectiva para el flip */
+    .polaroid {
+      perspective: 900px;
+      cursor: pointer;
+    }
+    .polaroid:nth-child(1) { --rot: rotate(-3.2deg); }
+    .polaroid:nth-child(2) { --rot: rotate(2.0deg);  }
+    .polaroid:nth-child(3) { --rot: rotate(-1.5deg); }
+    .polaroid:nth-child(4) { --rot: rotate(3.4deg);  }
+    .polaroid:nth-child(5) { --rot: rotate(-2.8deg); }
+    .polaroid:nth-child(6) { --rot: rotate(1.2deg);  }
+
+    /* inner */
+    .polaroid-inner {
+      position: relative;
+      transform-style: preserve-3d;
+      opacity: 0;
+      transition: transform .7s cubic-bezier(.4,0,.2,1), box-shadow .3s ease;
+      box-shadow:
+        0 4px 12px rgba(44,31,23,.12),
+        0 16px 40px rgba(44,31,23,.18),
+        0 1px 3px rgba(44,31,23,.08);
+    }
+    .polaroid:hover .polaroid-inner {
+      box-shadow:
+        0 8px 24px rgba(44,31,23,.2),
+        0 24px 56px rgba(44,31,23,.26);
+    }
+
+    /* frente y reverso */
+    .polaroid-front {
+      position: relative;
+      background: #fff;
+      padding: 8px 8px 30px;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .polaroid-front img {
+      width: 100%; aspect-ratio: 1/1;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .polaroid-label {
+      text-align: center;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--ink-lt);
+      margin-top: 6px;
+      line-height: 1;
+    }
+
+    /* reverso */
+    .polaroid-back {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(145deg, #fdf6ee, #f5e8d6);
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 16px 12px;
+      gap: 8px;
+    }
+    .polaroid-back::before {
+      content: '✦';
+      font-size: 11px; color: var(--gold);
+    }
+    .polaroid-back::after {
+      content: '✦';
+      font-size: 11px; color: var(--gold);
+    }
+    .polaroid-back-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(13px, 2.2vw, 16px);
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.55;
+    }
+    .polaroid-back-sub {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 8px; letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-top: 4px;
+    }
+
+    .polaroid-hint {
+      text-align: center;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 14px;
+      opacity: 0;
+      transition: opacity 1s ease;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .polaroid-hint.show { opacity: 1; }
+    .polaroid-hint::before, .polaroid-hint::after {
+      content: ''; flex: 0 0 28px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rose-lt));
+    }
+    .polaroid-hint::after { transform: scaleX(-1); }
+    .poem {
+      animation: fadeUp .7s ease .5s both;
+    }
+    .poem-title {
+      text-align: center;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 300; font-style: italic;
+      color: var(--ink);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .poem-title span {
+      color: var(--rose); font-weight: 600;
+    }
+    .poem-subtitle {
+      text-align: center;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 52px;
+    }
+
+    .strophe {
+      margin-bottom: 32px;
+    }
+    .strophe p {
+      font-size: clamp(17px, 2.4vw, 20px);
+      line-height: 1.95;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    /* ── Divisor ── */
+    .divider {
+      display: flex; align-items: center;
+      gap: 16px; margin: 44px 0;
+      color: var(--gold);
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .divider-ornament {
+      font-size: 11px; letter-spacing: 6px;
+    }
+
+    /* ── Cierre ── */
+    .poem-close {
+      text-align: center;
+      padding-top: 48px;
+      border-top: 1px solid rgba(201,169,110,.3);
+      margin-top: 48px;
+    }
+    .poem-close .close-heart {
+      font-size: 32px; display: block; margin-bottom: 16px;
+      animation: heartPulse 2.4s ease-in-out infinite;
+    }
+    .poem-close .close-sig {
+      font-size: 26px; font-style: italic; font-weight: 300;
+      color: var(--ink-lt);
+      margin-bottom: 12px;
+    }
+    .poem-close .close-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--rose);
+    }
+
+    /* ── Footer line ── */
+    .footer-line {
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px; padding: 48px 0;
+    }
+    .footer-line::before, .footer-line::after {
+      content: ''; flex: 0 0 80px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .footer-line::after { transform: scaleX(-1); }
+    .footer-line span {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Corazón palpitante ── */
+    @keyframes bigPulse {
+      0%   { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(201,121,106,0)); }
+      15%  { transform: scale(1.32); filter: drop-shadow(0 0 18px rgba(201,121,106,.6)); }
+      30%  { transform: scale(1.1);  filter: drop-shadow(0 0 8px rgba(201,121,106,.3)); }
+      45%  { transform: scale(1.24); filter: drop-shadow(0 0 14px rgba(201,121,106,.5)); }
+      65%  { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(201,121,106,0)); }
+      100% { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(201,121,106,0)); }
+    }
+    .big-heart-wrap {
+      text-align: center;
+      padding: 20px 0 8px;
+    }
+    .big-heart {
+      font-size: 64px;
+      display: inline-block;
+      animation: bigPulse 1.6s ease-in-out infinite;
+      cursor: default;
+    }
+
+    /* ── Audio hint ── */
+    .audio-hint {
+      position: fixed; bottom: 24px; right: 24px; z-index: 100;
+      background: rgba(44,31,23,.85);
+      border: 1px solid rgba(201,169,110,.3);
+      border-radius: 99px; padding: 8px 16px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; font-weight: 400; letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(245,239,230,.6);
+      backdrop-filter: blur(12px);
+      pointer-events: none;
+      transition: opacity .8s;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Masthead ── -->
+  <header class="masthead">
+    <p class="masthead-label">14 meses · 24 octubre 2026</p>
+    <h1>Mi amor,<br/>mi orgullo,<br/><em>mi vida</em></h1>
+    <p class="masthead-sub">Doctora · Valiente · Extraordinaria</p>
+    <div class="masthead-ornament">
+      <span class="ornament-heart">❤️</span>
+    </div>
+  </header>
+
+  <main class="page">
+    <article class="poem">
+
+      <div class="strophe">
+        <p>Hoy cumplimos un año y dos meses,<br/>
+        y todavía me cuesta explicar<br/>
+        cómo es que entre tantas personas en el mundo,<br/>
+        tuve la suerte de encontrarte y poderte amar.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Un año y dos meses de abrazos,<br/>
+        de sueños, de besos y complicidad,<br/>
+        de descubrir que cuando estoy contigo,<br/>
+        mi corazón no necesita nada más.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Porque te amo, mi amor, te amo a morir,<br/>
+        con esa fuerza que no sabe rendirse,<br/>
+        con esas ganas de tenerte a mi lado,<br/>
+        de cuidarte, abrazarte y nunca irme.<br/>
+        Te amo más allá de lo que dicen las palabras,<br/>
+        más allá del tiempo, la distancia y el temor,<br/>
+        y si me dieran mil vidas para elegir de nuevo,<br/>
+        en las mil te elegiría a ti, mi amor.</p>
+      </div>
+
+      <div class="divider"><span class="divider-ornament">✦ ✦ ✦</span></div>
+
+      <div class="strophe">
+        <p>Y hoy quiero decirte algo muy especial,<br/>
+        algo que mi corazón siente de verdad:<br/>
+        estoy tan orgulloso de la mujer que eres,<br/>
+        que no me alcanza el pecho para expresar cuánto más.</p>
+      </div>
+
+      <!-- ── Badge cirugía + Fotos ── -->
+      <div class="surgery-card">
+        <span class="sc-icon">🩺</span>
+        <p class="sc-title">Tu primera cirugía</p>
+        <p class="sc-main">Bullectomía —<br/>un momento que siempre recordarás</p>
+        <p class="sc-sub">Un paso enorme en tu camino como doctora</p>
+      </div>
+
+      <div class="polaroid-section">
+        <p class="polaroid-hint" id="polaroidHint">toca las fotos ✦</p>
+        <div class="polaroid-grid" id="polaroidGrid">
+
+          <div class="polaroid">
+            <div class="polaroid-inner">
+              <div class="polaroid-front">
+                <img src="img_aniv14_1.jpg" alt="" />
+                <p class="polaroid-label">eres todo</p>
+              </div>
+              <div class="polaroid-back">
+                <p class="polaroid-back-text">Fui a tu guardia<br/>con el corazón<br/>en la garganta</p>
+                <p class="polaroid-back-sub">eres mi lugar</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="polaroid">
+            <div class="polaroid-inner">
+              <div class="polaroid-front">
+                <img src="img_aniv14_2.jpg" alt="" />
+                <p class="polaroid-label">lo que</p>
+              </div>
+              <div class="polaroid-back">
+                <p class="polaroid-back-text">con miedo de que<br/>alguien me viera<br/>y me sacara</p>
+                <p class="polaroid-back-sub">favorito</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="polaroid">
+            <div class="polaroid-inner">
+              <div class="polaroid-front">
+                <img src="img_aniv14_3.jpg" alt="" />
+                <p class="polaroid-label">siempre</p>
+              </div>
+              <div class="polaroid-back">
+                <p class="polaroid-back-text">pero entonces<br/>te vi trabajar<br/>y me olvidé de todo</p>
+                <p class="polaroid-back-sub">en el mundo</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="polaroid">
+            <div class="polaroid-inner">
+              <div class="polaroid-front">
+                <img src="img_aniv14_4.jpg" alt="" />
+                <p class="polaroid-label">quise</p>
+              </div>
+              <div class="polaroid-back">
+                <p class="polaroid-back-text">segura, precisa,<br/>tan tuya —<br/>tan doctora</p>
+                <p class="polaroid-back-sub">donde quiero</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="polaroid">
+            <div class="polaroid-inner">
+              <div class="polaroid-front">
+                <img src="img_aniv14_5.jpg" alt="" />
+                <p class="polaroid-label">amar</p>
+              </div>
+              <div class="polaroid-back">
+                <p class="polaroid-back-text">ahí entendí<br/>que no solo<br/>te amaba</p>
+                <p class="polaroid-back-sub">estar</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="polaroid">
+            <div class="polaroid-inner">
+              <div class="polaroid-front">
+                <img src="img_aniv14_6.jpg" alt="" />
+                <p class="polaroid-label">y te amo ❤️</p>
+              </div>
+              <div class="polaroid-back">
+                <p class="polaroid-back-text">también te admiraba<br/>con todo<br/>mi corazón</p>
+                <p class="polaroid-back-sub">siempre ❤️</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="strophe">
+        <p>Ayer diste un paso enorme en tu camino,<br/>
+        viviste un momento que nunca olvidarás;<br/>
+        tu primera cirugía, una bullectomía,<br/>
+        una experiencia que siempre recordarás.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Y aunque no estuve dentro de aquel quirófano,<br/>
+        mi corazón estuvo contigo en cada instante,<br/>
+        imaginando tus manos llenas de confianza,<br/>
+        tu inteligencia y tu valor tan admirables.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Quizá ayer sentiste nervios, quizá emoción,<br/>
+        quizá mil pensamientos cruzaron tu mente,<br/>
+        pero quiero que sepas que, pase lo que pase,<br/>
+        yo creo en ti con todo lo que soy y para siempre.</p>
+      </div>
+
+      <div class="divider"><span class="divider-ornament">✦ ✦ ✦</span></div>
+
+      <div class="strophe">
+        <p>Porque sé cuánto te esfuerzas por tus sueños,<br/>
+        cuántas horas dedicas a ser mejor,<br/>
+        cuánto amor llevas dentro de tu vocación<br/>
+        y cuánta grandeza existe en tu corazón.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Y verte crecer, conquistar tus metas,<br/>
+        demostrar todo aquello que eres capaz de lograr,<br/>
+        es uno de los regalos más bonitos de mi vida;<br/>
+        no solo te amo, mi amor, te admiro de verdad.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Quiero estar ahí cuando alcances tus sueños,<br/>
+        cuando celebres tus triunfos y quieras llorar,<br/>
+        cuando el cansancio te pese en los hombros<br/>
+        y necesites un abrazo donde descansar.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Quiero aplaudir cada uno de tus logros,<br/>
+        recordarte lo increíble que eres cuando dudes de ti,<br/>
+        ser ese amor que te sostenga en los días difíciles<br/>
+        y celebrar cada motivo que te haga sonreír.</p>
+      </div>
+
+      <div class="divider"><span class="divider-ornament">✦ ✦ ✦</span></div>
+
+      <div class="strophe">
+        <p>Mi hermosa, nunca olvides lo mucho que vales,<br/>
+        la luz que llevas dentro, tu forma de brillar;<br/>
+        eres inteligente, hermosa y extraordinaria,<br/>
+        y tienes un futuro inmenso que te espera por conquistar.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Hoy celebramos catorce meses de historia,<br/>
+        catorce meses que guardo en mi corazón;<br/>
+        y si algo tengo claro en esta vida,<br/>
+        es que amarte ha sido mi más bonita decisión.</p>
+      </div>
+
+      <div class="strophe">
+        <p>En cada meta, en cada triunfo, en cada nuevo comienzo,<br/>
+        quiero ser quien te abrace y te diga: «¡Lo lograste, mi amor!».<br/>
+        Quiero verte cumplir tus sueños más grandes<br/>
+        y recordarte siempre lo orgulloso que estoy de ti.</p>
+      </div>
+
+      <div class="divider"><span class="divider-ornament">✦ ✦ ✦</span></div>
+
+      <div class="strophe">
+        <p>Porque tu felicidad también vive en mi pecho,<br/>
+        porque tus triunfos también me hacen feliz,<br/>
+        porque cuando te veo luchar por lo que amas,<br/>
+        me enamoro un poquito más de ti.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Feliz un año y dos meses, mi vida,<br/>
+        mi compañera, mi orgullo, mi dulce amor.<br/>
+        Gracias por existir, por dejarme amarte,<br/>
+        por darle tanta belleza a mi corazón.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Y si alguna vez te preguntas cuánto te amo,<br/>
+        si las palabras no bastan para describirlo,<br/>
+        mírame a los ojos y encontrarás la respuesta:<br/>
+        te amo a morir, mi amor, y no pienso dejar de elegirte.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Hoy, mañana y todos los días que vengan,<br/>
+        en los momentos perfectos y en los que cueste sonreír,<br/>
+        quiero caminar de tu mano por la vida,<br/>
+        ver tus sueños florecer y envejecer junto a ti.</p>
+      </div>
+
+      <div class="divider"><span class="divider-ornament">✦ ✦ ✦</span></div>
+
+      <div class="strophe">
+        <p>Porque de todas las cosas bonitas que me ha dado la vida,<br/>
+        de todos los regalos que el destino me pudo ofrecer,<br/>
+        tú eres mi casualidad más hermosa, mi amor más profundo,<br/>
+        y la mujer que, una y mil veces, volvería a escoger.</p>
+      </div>
+
+      <div class="strophe" style="margin-top:12px">
+        <p>Feliz 1 año y 2 meses, mi amor. ❤️</p>
+      </div>
+
+      <div class="big-heart-wrap">
+        <span class="big-heart">❤️</span>
+      </div>
+
+      <div class="strophe">
+        <p>Te amo hasta donde las palabras no llegan,<br/>
+        hasta donde el tiempo deja de contar,<br/>
+        hasta el último latido de mi pecho<br/>
+        y más allá de lo que podamos imaginar.</p>
+      </div>
+
+      <div class="strophe">
+        <p>Y nunca lo olvides, mi hermosa:<br/>
+        ayer comenzaste a escribir una nueva página en tu historia como doctora,<br/>
+        pero desde hace catorce meses<br/>
+        eres tú quien sigue escribiendo la historia más bonita de mi corazón.</p>
+      </div>
+
+      <div class="strophe" style="margin-top:12px">
+        <p>Te amo a morir, mi vida.<br/>
+        Y qué orgullo tan inmenso es amarte. ❤️</p>
+      </div>
+
+      <div class="poem-close">
+        <span class="close-heart">❤️</span>
+        <p class="close-sig">Tu mayor fan, para siempre</p>
+        <p class="close-label">Con todo mi amor · Feliz 14 meses</p>
+      </div>
+
+    </article>
+
+    <div class="footer-line">
+      <span>24 · X · 2026</span>
+    </div>
+
+  </main>
+
+  <audio id="bgAudio" src="bendita.mp3" loop preload="auto"></audio>
+  <div class="audio-hint" id="audioHint">♩ toca para escuchar</div>
+
+  <script>
+    /* ── Audio ── */
+    const audio     = document.getElementById('bgAudio');
+    const audioHint = document.getElementById('audioHint');
+    function startAudio() {
+      audio.volume = 0.55;
+      audio.play().then(() => {
+        audioHint.style.opacity = '0';
+        setTimeout(() => audioHint.remove(), 900);
+      }).catch(() => {});
+    }
+    window.addEventListener('message', e => {
+      if (e.data === 'play')  startAudio();
+      if (e.data === 'pause') audio.pause();
+    });
+    // audio arranca con cualquier interacción — no bloqueamos clicks de polaroids
+    document.addEventListener('pointerdown', startAudio, { once: true });
+
+    /* ── Polaroids ── */
+    const cards        = document.querySelectorAll('.polaroid');
+    const polaroidHint = document.getElementById('polaroidHint');
+
+    const rots = [
+      'rotate(-3.2deg)',
+      'rotate(2.0deg)',
+      'rotate(-1.5deg)',
+      'rotate(3.4deg)',
+      'rotate(-2.8deg)',
+      'rotate(1.2deg)'
+    ];
+
+    // caída al entrar en viewport
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const card  = entry.target;
+        const inner = card.querySelector('.polaroid-inner');
+        const idx   = Array.from(cards).indexOf(card);
+        const rot   = rots[idx] || 'rotate(0deg)';
+
+        setTimeout(() => {
+          const anim = inner.animate([
+            { opacity: 0, transform: `${rot} translateY(-300px) scale(.75)` },
+            { opacity: 1, transform: `${rot} translateY(10px) scale(1.02)`, offset: 0.65 },
+            { opacity: 1, transform: `${rot} translateY(-4px) scale(.99)`,  offset: 0.82 },
+            { opacity: 1, transform: `${rot} translateY(0) scale(1)` }
+          ], { duration: 800, easing: 'ease-out', fill: 'forwards' });
+
+          anim.onfinish = () => {
+            anim.cancel();                      // libera fill:forwards
+            inner.style.transform = rot;        // fija posición final
+            inner.style.opacity   = '1';
+          };
+
+          if (idx === 0) setTimeout(() => polaroidHint.classList.add('show'), 700);
+        }, idx * 150);
+
+        obs.unobserve(card);
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach(c => obs.observe(c));
+
+    /* flip al click */
+    const flipTimers = new Map();
+    cards.forEach((c, idx) => {
+      const inner = c.querySelector('.polaroid-inner');
+      const rot   = rots[idx] || 'rotate(0deg)';
+
+      c.addEventListener('click', () => {
+        startAudio();   // también arranca audio si no ha empezado
+        if (c.classList.contains('flipped')) {
+          clearTimeout(flipTimers.get(c));
+          flipTimers.delete(c);
+          c.classList.remove('flipped');
+          inner.style.transform = rot;
+        } else {
+          c.classList.add('flipped');
+          inner.style.transform = `${rot} rotateY(180deg)`;
+          flipTimers.set(c, setTimeout(() => {
+            c.classList.remove('flipped');
+            inner.style.transform = rot;
+            flipTimers.delete(c);
+          }, 10000));
+        }
+      });
+    });
+
+    /* ── Fade up estrofas al hacer scroll ── */
+    const strophes = document.querySelectorAll('.strophe, .divider, .poem-close');
+    const obsPoem = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'fadeUp .65s ease both';
+          obsPoem.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    strophes.forEach(s => {
+      s.style.opacity = '0';
+      obsPoem.observe(s);
+    });
+  </script>
+</body>
+</html>
