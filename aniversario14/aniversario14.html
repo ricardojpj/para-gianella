@@ -768,7 +768,7 @@
     function startAudio() {
       if (audio.dataset.started) return;
       audio.dataset.started = '1';
-      audio.volume = 0.55;
+      audio.volume = 1;
       audio.play().then(() => {
         audioHint.style.opacity = '0';
         setTimeout(() => { if (audioHint.parentNode) audioHint.remove(); }, 900);
