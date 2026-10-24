@@ -377,25 +377,69 @@
       color: var(--gold);
     }
 
-    /* ── Corazón palpitante ── */
-    @keyframes bigPulse {
-      0%   { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(201,121,106,0)); }
-      15%  { transform: scale(1.32); filter: drop-shadow(0 0 18px rgba(201,121,106,.6)); }
-      30%  { transform: scale(1.1);  filter: drop-shadow(0 0 8px rgba(201,121,106,.3)); }
-      45%  { transform: scale(1.24); filter: drop-shadow(0 0 14px rgba(201,121,106,.5)); }
-      65%  { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(201,121,106,0)); }
-      100% { transform: scale(1);    filter: drop-shadow(0 0 0px rgba(201,121,106,0)); }
+    /* ── Celebración aniversario ── */
+    @keyframes celebFlare {
+      0%   { opacity: 0; transform: translateY(22px) scale(.92); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .big-heart-wrap {
+    @keyframes shimmerRose {
+      0%   { background-position: -300% center; }
+      100% { background-position: 300% center; }
+    }
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-7px) scale(1.08); }
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+      50%       { opacity: 1; transform: scale(1) rotate(180deg); }
+    }
+    .aniv-celebration {
       text-align: center;
-      padding: 20px 0 8px;
+      padding: 12px 0 28px;
+      animation: celebFlare .9s cubic-bezier(.22,1,.36,1) both;
     }
-    .big-heart {
-      font-size: 64px;
+    .aniv-celebration .aniv-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .aniv-celebration .aniv-main {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      font-style: italic; font-weight: 300;
+      line-height: 1.15;
+      background: linear-gradient(100deg,
+        var(--terra) 0%, var(--rose) 30%, var(--gold) 55%, var(--rose) 75%, var(--terra) 100%);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmerRose 4s linear infinite;
+      display: block;
+    }
+    .aniv-celebration .aniv-hearts {
+      margin-top: 14px;
+      display: flex; justify-content: center; align-items: center;
+      gap: 6px; flex-wrap: wrap;
+    }
+    .aniv-celebration .aniv-hearts span {
       display: inline-block;
-      animation: bigPulse 1.6s ease-in-out infinite;
-      cursor: default;
+      font-size: 22px;
+      animation: floatHeart 2.4s ease-in-out infinite;
     }
+    .aniv-celebration .aniv-hearts span:nth-child(2) { animation-delay: .35s; font-size: 32px; }
+    .aniv-celebration .aniv-hearts span:nth-child(3) { animation-delay: .7s; }
+    .aniv-celebration .aniv-hearts span:nth-child(4) { animation-delay: .2s; font-size: 18px; }
+    .aniv-celebration .aniv-hearts span:nth-child(5) { animation-delay: .55s; font-size: 28px; }
+    .aniv-celebration .aniv-hearts span:nth-child(6) { animation-delay: .9s; font-size: 18px; }
+    .aniv-spark {
+      display: inline-block;
+      font-size: 14px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    .aniv-spark:nth-of-type(2) { animation-delay: .7s; }
+    .aniv-spark:nth-of-type(3) { animation-delay: 1.4s; }
 
     /* ── Audio hint ── */
     .audio-hint {
@@ -668,12 +712,17 @@
         y la mujer que, una y mil veces, volvería a escoger.</p>
       </div>
 
-      <div class="strophe" style="margin-top:12px">
-        <p>Feliz 1 año y 2 meses, mi amor. ❤️</p>
-      </div>
-
-      <div class="big-heart-wrap">
-        <span class="big-heart">❤️</span>
+      <div class="aniv-celebration">
+        <p class="aniv-label"><span class="aniv-spark">✦</span> catorce meses <span class="aniv-spark">✦</span></p>
+        <span class="aniv-main">Feliz 1 año y 2 meses, mi amor.</span>
+        <div class="aniv-hearts">
+          <span>🌸</span>
+          <span>❤️</span>
+          <span>🌸</span>
+          <span>✨</span>
+          <span>❤️</span>
+          <span>✨</span>
+        </div>
       </div>
 
       <div class="strophe">
