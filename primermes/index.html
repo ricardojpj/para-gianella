@@ -847,6 +847,7 @@
                 btnToggleMusic.innerText = '▶';
                 isPlaying = false;
             } else {
+                bgMusic.volume = 1;
                 bgMusic.play().then(() => {
                     btnToggleMusic.innerText = '⏸';
                     isPlaying = true;
