@@ -781,7 +781,9 @@
       if (e.data === 'play')  startAudio();
       if (e.data === 'pause') audio.pause();
     });
-    // arranca con cualquier interacción
+    // intenta arrancar inmediatamente (funciona cuando viene del modal del index)
+    window.addEventListener('load', () => startAudio());
+    // fallback: cualquier interacción directa
     ['pointerdown','keydown','touchstart'].forEach(ev =>
       document.addEventListener(ev, startAudio, { once: true, passive: true })
     );
