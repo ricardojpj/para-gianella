@@ -766,18 +766,25 @@
     const audio     = document.getElementById('bgAudio');
     const audioHint = document.getElementById('audioHint');
     function startAudio() {
+      if (audio.dataset.started) return;
+      audio.dataset.started = '1';
       audio.volume = 0.55;
       audio.play().then(() => {
         audioHint.style.opacity = '0';
-        setTimeout(() => audioHint.remove(), 900);
-      }).catch(() => {});
+        setTimeout(() => { if (audioHint.parentNode) audioHint.remove(); }, 900);
+      }).catch(err => {
+        console.warn('audio blocked:', err);
+        delete audio.dataset.started;
+      });
     }
     window.addEventListener('message', e => {
       if (e.data === 'play')  startAudio();
       if (e.data === 'pause') audio.pause();
     });
-    // audio arranca con cualquier interacción — no bloqueamos clicks de polaroids
-    document.addEventListener('pointerdown', startAudio, { once: true });
+    // arranca con cualquier interacción
+    ['pointerdown','keydown','touchstart'].forEach(ev =>
+      document.addEventListener(ev, startAudio, { once: true, passive: true })
+    );
 
     /* ── Polaroids ── */
     const cards        = document.querySelectorAll('.polaroid');
